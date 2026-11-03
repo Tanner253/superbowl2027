@@ -1,43 +1,61 @@
-# US President 2028 ($PRESIDENT)
+# Super Bowl 2027 ($SUPERBOWL)
 
-The World Cup on Pump format, remade for the 2028 presidential race: one pump.fun coin per candidate, all feeding the main $PRESIDENT coin.
+The 2026 NFL season on-chain: one pump.fun coin for each of the 16 title favorites, an AFC and an NFC
+coin, all feeding the main $SUPERBOWL coin through the fee engine, on the road to Super Bowl LXI
+(Sunday, February 14, 2027, SoFi Stadium, Inglewood). Built from the US President 2028 site.
 
 Live: https://www.superbowl2027.fun
 
-## Pages (and their World Cup equivalents)
+Independent memecoin project. Not affiliated with the NFL, any team or any player. No league or team
+logos, trophy artwork or player photos are used anywhere.
 
-| Ours | World Cup on Pump | What's on it |
-| --- | --- | --- |
-| `/` | Home | Splash gate, scoreboard (next big day, next burn, candidates remaining, up next), burned / market cap / Election Day blocks, buy band, ticker, 4-step fee engine, "paired to $PRESIDENT", top gainer & loser, frontrunner table (their Golden Boot) |
-| `/president/` | `/worldcup/` | Burn cam, contract address, market cap / volume / price / liquidity / holders / % burnt, chart, fee-engine totals |
-| `/candidates/` | `/countries/` | Ranked board (position, movement, odds, market cap, 24h, volume, holders) and photo cards |
-| `/race/` | `/tournament/` | Road to the White House bracket, race calendar (their fixtures), "Call the race" ballot (their bracket challenge) with share links |
-| `/voters/` | `/passport/` | Voter Card: holder leaderboard with 5 tiers, 8 badges, wallet lookup |
-| `/credits/` | n/a | Photo credits (Wikimedia Commons licenses) |
+## Pages
+
+| Route | What's on it |
+| --- | --- |
+| `/` | Splash gate, field-goal background, LED scoreboard (next round, next burn, teams alive, up next), burned / market cap / days to kickoff, buy band, ticker, AFC vs NFC bar, 4-step fee engine, "paired to $SUPERBOWL", top gainer & loser, title favorites |
+| `/superbowl/` | Jumbotron burn cam, contract address, market cap / volume / price / liquidity / holders / % burnt, chart, fee-engine totals |
+| `/teams/` | Ranked board (position, movement, odds, market cap, 24h, volume, holders), team cards, the conference coins |
+| `/road/` | Road to the Super Bowl bracket, playoff calendar, Pick'em (AFC champion, NFC champion, winner) with share links |
+| `/fans/` | Fan Card: holder leaderboard with 5 tiers, 8 badges, wallet lookup |
+| `/credits/` | Where every live number comes from |
+
+Kick Return, the signature game, opens from the nav on every page. It's mounted in the root layout
+(`src/components/game/`), downloaded only on first open, and keeps its best score in the browser.
 
 ## Data sources
 
 | What | Where it comes from |
 | --- | --- |
-| Coin price, market cap, volume, 24h change | DexScreener public API, in the browser, every 60s |
-| Win odds | Polymarket "Presidential Election Winner 2028" market (gamma `/markets/keyset`), every 5 min |
-| Party odds ("Race to 270", chyron) | Polymarket "Which party wins 2028" market, ids in `SITE.partyMarkets` |
-| Burned, SOL routed, cycle times, holder counts, burn log | MongoDB, written hourly by the crank (private repo `superbowl2027-crank`), served by this site's read-only `/api/stats` route |
-| Voter Card | `board-meta.json` + `board-{n}.json`, written by your internal claim process |
+| Coin price, market cap, volume, 24h change | DexScreener public API in the browser every 60s, with Jupiter for coins quoted in $SUPERBOWL |
+| Title odds | Polymarket "Pro Football: 2027 Champion" (gamma `/markets/keyset`), every 5 min. Each team's market id is `polymarketId` in `src/config/candidates.ts` |
+| AFC vs NFC | The same event: each conference's 16 team markets summed (the 16 teams without coins are `OTHER_TEAMS`) |
+| Burned total | Read from the chain by `/api/stats` |
+| SOL routed, LP and marketing totals, cycle times, holder counts, burn log, coin list | MongoDB, written every 15 minutes by the crank (private repo `superbowl2027-crank`), served by this site's read-only `/api/stats` route |
+| Fan Card | `board-meta.json` + `board-{n}.json`, written by your internal claim process |
+
+## Settings
+
+| Variable | Where | Value |
+| --- | --- | --- |
+| `MONGODB_URI` | Vercel, Production | Read-only connection string for the `superbowl2027` database |
+| `SOLANA_RPC_URL` | Vercel, optional | Helius URL. Falls back to the public RPC. |
+| `NEXT_PUBLIC_DEMO` | `.env.development` only | `1` shows fake numbers in `npm run dev`. Never set it in production. |
 
 ## Launch checklist
 
-1. **Main coin:** paste the $PRESIDENT contract address into `mainMint` in `src/config/site.ts`.
-2. **Candidate coins:** paste each contract address into that candidate's `mint` in `src/config/candidates.ts`. Until a coin has one, its card says "Soon".
+1. **Main coin:** paste the $SUPERBOWL contract address into `mainMint` in `src/config/site.ts`. Until then the crank's coin list fills it in by ticker.
+2. **Team and conference coins:** nothing to paste. The crank publishes every coin the creator wallet launched, and the site matches each on full team name first, then ticker (`src/lib/coins.ts`). An address typed into `mint` in `src/config/candidates.ts` or `src/config/parties.ts` still wins. Until a coin is live its card says "Soon".
 3. **Socials:** fill in `socials` in `src/config/site.ts`; empty links stay hidden.
-4. **Giveaway (optional):** set `BALLOT.prize` in `src/config/site.ts` to show winners × SOL and rules on the ballot. Edit or remove the home `ANNOUNCEMENT` band there too.
-5. **Database:** add `MONGODB_URI` (the full MongoDB connection string; a read-only user is safest) to the Vercel project's Production environment variables.
-6. **Demo off:** `vercel env rm NEXT_PUBLIC_DEMO production`.
-7. **Deploy:** `vercel --prod`.
+4. **Giveaway (optional):** set `BALLOT.prize` in `src/config/site.ts` to show winners × SOL and rules on the Pick'em. Edit or remove the home `ANNOUNCEMENT` band there too.
+5. **Database:** add `MONGODB_URI` (read-only user) to the Vercel project's Production environment variables.
+6. **Deploy:** `vercel deploy --prod --yes`.
 
 ## Fee-engine stats (MongoDB)
 
-The crank saves this as one document (`_id: "current"`) in the `stats` collection of the `superbowl2027` database after every cycle. `/api/stats` returns it, cached for a minute at Vercel's edge, so the database sees about one read a minute:
+The crank saves one document (`_id: "current"`) in the `stats` collection of the `superbowl2027`
+database after every cycle. `/api/stats/` returns it (call it with the trailing slash), cached for 30
+seconds at Vercel's edge, with `totalBurned` read straight from the chain:
 
 ```json
 {
@@ -49,43 +67,31 @@ The crank saves this as one document (`_id: "current"`) in the `stats` collectio
   "cycles": 0,
   "lastCycleAt": null,
   "nextCycleAt": null,
-  "cycleIntervalMs": 3600000,
+  "cycleIntervalMs": 900000,
   "capturedAt": null,
-  "holders": {
-    "<mint>": { "count": 1049, "change24h": -30 }
-  }
+  "holders": { "<mint>": { "count": 1049, "change24h": -30 } },
+  "coins": [{ "mint": "<mint>", "symbol": "BILLS", "name": "Buffalo Bills", "image": null, "main": false }]
 }
 ```
 
-- `totalBurned` is in $PRESIDENT tokens; the SOL fields are in SOL; times are ISO strings.
-- `holders` is optional. When it's present, holder counts appear on the $PRESIDENT page, the candidates board and the coin cards.
+- `totalBurned` is in $SUPERBOWL tokens; the SOL fields are in SOL; times are ISO strings.
+- When the burned total rises between two refreshes, the page shows the touchdown banner.
 - Until `nextCycleAt` is set, the site shows "Burns start at launch" instead of a countdown.
-- `/api/stats` returns `503` when `MONGODB_URI` isn't set and `404` before the crank's first live cycle; the site shows those as "starts at launch" / "—".
 
-## Voter Card files
+## Fan Card files
 
-The schema is documented at the top of `src/config/voters.ts`. In short:
+The schema is documented at the top of `src/config/voters.ts` (keys are President's, so the same claim
+process works unchanged). Host them at `VOTER_CARD.rosterUrl`, then set `VOTER_CARD.enabled: true` in
+`src/config/site.ts`. Until then, the page shows "The roster opens when $SUPERBOWL launches".
 
-- `board-meta.json`: `{ "totalEntries": 9966, "pageCount": 200, "pageSize": 50 }`
-- `board-{n}.json`: `{ "entries": [{ "rank": 1, "owner": "<wallet>", "band": "ELECTOR", "badges": ["REGISTERED"] }], "resolvedResultBadges": [] }`
+## Running the season
 
-Host them at `VOTER_CARD.rosterUrl`, then set `VOTER_CARD.enabled: true` in `src/config/site.ts`. Until then, the page shows "The rolls open when $PRESIDENT launches" plus the tiers and badges explainer.
+- **A team is eliminated:** set `status: "out"`, `outAt` (the round they lost: `"season"`, `"wildcard"`, `"divisional"`, `"conference"`) and optionally `outDate: "2027-01-17"` in `src/config/candidates.ts`. They're greyed out everywhere, stop on the bracket at that round, and appear in the calendar.
+- **Conference champions:** set `status: "nominee"`. **Champion:** `status: "winner"`. Pick'em cards score automatically.
+- **The season moves on:** set `CURRENT_STAGE` in `src/config/race.ts`.
+- **Calendar:** date or add games in `EVENTS` in `src/config/race.ts`, and set `result` once one is decided. Set `SITE.gameDay` once the kickoff time is announced.
+- **After the Super Bowl:** keep the crank running and mark the champion.
 
-## Running the race
+## Brand
 
-- **Someone drops out:** set `status: "out"`, `outAt` (the stage, e.g. `"early"`) and optionally `outDate: "2027-09-14"` in `src/config/candidates.ts`. They're greyed out everywhere, stop on the road at that stage, and appear in the calendar.
-- **Someone declares, wins a nomination, or wins:** set `status` to `"running"`, `"nominee"`, or `"winner"`. Ballots score automatically against nominees and the winner.
-- **New candidate:** add a line to `CANDIDATES`, a photo to `public/candidates/<id>.jpg`, and a credit line to `src/config/photos.ts`. For live odds, set `polymarketId` (market ids are listed at `https://gamma-api.polymarket.com/events?slug=presidential-election-winner-2028`).
-- **The race moves on:** set `CURRENT_STAGE` in `src/config/race.ts`.
-- **Calendar:** add or date events in `EVENTS` in `src/config/race.ts`, and set `result` once an event is decided.
-
-Redeploy with `vercel --prod` after any change.
-
-## Local development
-
-```bash
-npm install
-npm run dev
-```
-
-`npm run dev` shows fake market numbers and a demo voter roll (set in `.env.development`) so you can check layouts before launch. Production builds always show real data.
+`brand/` renders the logo, banners, icons, share card and X post graphic. See `brand/README.md`.
