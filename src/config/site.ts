@@ -4,9 +4,9 @@ import { CANDIDATES } from "./candidates";
 export const SITE = {
   name: "US President 2028",
   ticker: "PRESIDENT",
-  url: "https://www.president2028.fun",
+  url: "https://www.superbowl2027.fun",
   // Paste the $PRESIDENT contract address here once it's live on pump.fun.
-  mainMint: "3LPTanzycRAjguU6VAXE7T2Fd12LePQLpHATXXs9pump",
+  mainMint: "",
   totalSupply: 1_000_000_000,
   electionDay: "2028-11-07T00:00:00-05:00",
   socials: [

@@ -5,10 +5,10 @@ import type { Party } from "./candidates";
 export type PartyCoin = { id: string; name: string; ticker: string; party: Party; mint: string };
 
 export const PARTY_COINS: PartyCoin[] = [
-  { id: "democrats", name: "Democrats", ticker: "DEMOCRATS", party: "D", mint: "3N2JZ1rmA4MAKWUBFic7EfRDckgm8nZPzqibPuFjpump" },
-  { id: "republicans", name: "Republicans", ticker: "REPUBLICANS", party: "R", mint: "3N86GcdaPMELKvLmv9Wm3Dd3iiyuq6skVrfvJcP1pump" },
-  { id: "america-party", name: "America Party", ticker: "AMERICA", party: "I", mint: "3zGxYxyoFVgrEEaJCGwjghUWxCyN99B1CJFJFAmSpump" },
-  { id: "america-first", name: "America First", ticker: "AF", party: "R", mint: "3NYh5f3R3Sdr8zqZeQa2E9BBuJpmiudUCCUV9Pewpump" },
+  { id: "democrats", name: "Democrats", ticker: "DEMOCRATS", party: "D", mint: "" },
+  { id: "republicans", name: "Republicans", ticker: "REPUBLICANS", party: "R", mint: "" },
+  { id: "america-party", name: "America Party", ticker: "AMERICA", party: "I", mint: "" },
+  { id: "america-first", name: "America First", ticker: "AF", party: "R", mint: "" },
 ];
 
 export const partyKey = (id: string) => `party:${id}`;

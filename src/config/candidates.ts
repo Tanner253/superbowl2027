@@ -50,13 +50,13 @@ export const CANDIDATES: Candidate[] = [
   { id: "warnock", name: "Raphael Warnock", ticker: "WARNOCK", party: "D", mint: "", status: "undeclared", polymarketId: "561280" },
   { id: "moore", name: "Wes Moore", ticker: "MOORE", party: "D", mint: "", status: "undeclared", polymarketId: "561235" },
   { id: "massie", name: "Thomas Massie", ticker: "MASSIE", party: "R", mint: "", status: "undeclared", polymarketId: "561260" },
-  { id: "khanna", name: "Ro Khanna", ticker: "KHANNA", party: "D", mint: "3P5qPgvJehB84dJxcJWR14kMBteeGG5A4VSfkG2opump", status: "undeclared", polymarketId: "561259" },
+  { id: "khanna", name: "Ro Khanna", ticker: "KHANNA", party: "D", mint: "", status: "undeclared", polymarketId: "561259" },
   { id: "pritzker", name: "JB Pritzker", ticker: "PRITZKER", party: "D", mint: "", status: "undeclared", polymarketId: "561241" },
   { id: "cruz", name: "Ted Cruz", ticker: "CRUZ", party: "R", mint: "", status: "undeclared", polymarketId: "561281" },
   { id: "ivanka", name: "Ivanka Trump", ticker: "IVANKA", party: "R", mint: "", status: "undeclared", polymarketId: "561255" },
   { id: "emanuel", name: "Rahm Emanuel", ticker: "RAHM", party: "D", mint: "", status: "undeclared", polymarketId: "561282" },
   { id: "trump-jr", name: "Donald Trump Jr.", ticker: "DONJR", party: "R", mint: "", status: "undeclared", polymarketId: "561244" },
-  { id: "musk", name: "Elon Musk", ticker: "MUSK", party: "I", mint: "3z87rAr4dr3Ckf9mmEmGsCHiSqV11ovsD28pPf7apump", status: "undeclared", polymarketId: "561250", image: "https://m.rapidlaunch.io/images/rNfoFO5pg.jpg" },
+  { id: "musk", name: "Elon Musk", ticker: "MUSK", party: "I", mint: "", status: "undeclared", polymarketId: "561250", image: "https://m.rapidlaunch.io/images/rNfoFO5pg.jpg" },
 ];
 
 // Still in the race (undeclared names count until they rule themselves out).

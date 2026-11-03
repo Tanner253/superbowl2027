@@ -2,7 +2,7 @@
 
 The World Cup on Pump format, remade for the 2028 presidential race: one pump.fun coin per candidate, all feeding the main $PRESIDENT coin.
 
-Live: https://www.president2028.fun
+Live: https://www.superbowl2027.fun
 
 ## Pages (and their World Cup equivalents)
 
@@ -22,7 +22,7 @@ Live: https://www.president2028.fun
 | Coin price, market cap, volume, 24h change | DexScreener public API, in the browser, every 60s |
 | Win odds | Polymarket "Presidential Election Winner 2028" market (gamma `/markets/keyset`), every 5 min |
 | Party odds ("Race to 270", chyron) | Polymarket "Which party wins 2028" market, ids in `SITE.partyMarkets` |
-| Burned, SOL routed, cycle times, holder counts, burn log | MongoDB, written hourly by the crank (private repo `presidents2028-crank`), served by this site's read-only `/api/stats` route |
+| Burned, SOL routed, cycle times, holder counts, burn log | MongoDB, written hourly by the crank (private repo `superbowl2027-crank`), served by this site's read-only `/api/stats` route |
 | Voter Card | `board-meta.json` + `board-{n}.json`, written by your internal claim process |
 
 ## Launch checklist
@@ -37,7 +37,7 @@ Live: https://www.president2028.fun
 
 ## Fee-engine stats (MongoDB)
 
-The crank saves this as one document (`_id: "current"`) in the `stats` collection of the `president2028` database after every cycle. `/api/stats` returns it, cached for a minute at Vercel's edge, so the database sees about one read a minute:
+The crank saves this as one document (`_id: "current"`) in the `stats` collection of the `superbowl2027` database after every cycle. `/api/stats` returns it, cached for a minute at Vercel's edge, so the database sees about one read a minute:
 
 ```json
 {

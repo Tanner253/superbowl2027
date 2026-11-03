@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import { SITE } from "@/config/site";
 
-// Read-only window onto the stats the crank saves in MongoDB (database "president2028",
+// Read-only window onto the stats the crank saves in MongoDB (database "superbowl2027",
 // collection "stats", document "current"). Set MONGODB_URI in Vercel to a read-only user.
 // The burned total is read straight from the chain instead, so every burn (the crank's or a
 // manual one) shows up right away. Responses are cached at Vercel's edge for 30 seconds.
@@ -28,7 +28,7 @@ async function readDoc(): Promise<Record<string, unknown> | null> {
   const uri = process.env.MONGODB_URI;
   if (!uri) return null;
   try {
-    const db = (await connect(uri)).db("president2028");
+    const db = (await connect(uri)).db("superbowl2027");
     return await db.collection<{ _id: string }>("stats").findOne({ _id: "current" }, { projection: { _id: 0 } });
   } catch {
     return null;
