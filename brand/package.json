@@ -1,0 +1,13 @@
+{
+  "name": "superbowl2027-brand",
+  "private": true,
+  "description": "Renders the $SUPERBOWL logo, banners, share card, icons and X post graphic",
+  "scripts": {
+    "render": "node render.js",
+    "xpost": "node xpost.js"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "png-to-ico": "^2.1.8"
+  }
+}
