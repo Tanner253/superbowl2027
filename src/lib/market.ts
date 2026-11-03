@@ -28,7 +28,7 @@ export type EngineStats = {
   capturedAt: string | null;
   // Optional holder counts, keyed by mint.
   holders: Record<string, Holders>;
-  // Every coin the dev wallet launched, oldest first (see lib/coins.ts).
+  // Every coin the creator wallet launched, oldest first (see lib/coins.ts).
   coins: LaunchedCoin[];
 };
 
@@ -65,7 +65,7 @@ const numOrNull = (v: unknown) => {
 };
 const isoOrNull = (v: unknown) => (typeof v === "string" && !Number.isNaN(Date.parse(v)) ? v : null);
 
-// Keyed by our own key (candidate id or MAIN_KEY), not by mint.
+// Keyed by our own key (team id, group key or MAIN_KEY), not by mint.
 // Throws when every request fails, so callers keep the last good data instead of blanking it.
 export async function fetchMarkets(entries: { key: string; mint: string }[]) {
   const byMint = new Map(entries.filter((e) => e.mint).map((e) => [e.mint, e.key]));
@@ -98,8 +98,8 @@ export async function fetchMarkets(entries: { key: string; mint: string }[]) {
       };
     }
   }
-  // DexScreener has no USD numbers for coins quoted in another token (candidates paired with
-  // $PRESIDENT on the bonding curve); Jupiter prices those, so fill them from there.
+  // DexScreener has no USD numbers for coins quoted in another token (teams paired with
+  // $SUPERBOWL on the bonding curve); Jupiter prices those, so fill them from there.
   const unpriced = mints.filter((m) => !(out[byMint.get(m)!]?.priceUsd > 0));
   for (let i = 0; i < unpriced.length; i += JUP_BATCH) {
     try {
@@ -237,19 +237,19 @@ export function demoHolders(keys: string[]) {
 }
 
 export function demoStats(): EngineStats {
-  const hour = 3_600_000;
+  const cycle = 15 * 60_000;
   const now = Date.now();
-  const last = Math.floor(now / hour) * hour;
+  const last = Math.floor(now / cycle) * cycle;
   return {
     totalBurned: 48_215_330,
     totalSolRouted: 812.4,
-    solToBurn: 520.7,
-    solToLp: 191.3,
-    solToMarketing: 100.4,
+    solToBurn: 690.5,
+    solToLp: 0,
+    solToMarketing: 0,
     cycles: 214,
     lastCycleAt: new Date(last).toISOString(),
-    nextCycleAt: new Date(last + hour).toISOString(),
-    cycleIntervalMs: hour,
+    nextCycleAt: new Date(last + cycle).toISOString(),
+    cycleIntervalMs: cycle,
     capturedAt: new Date(last).toISOString(),
     holders: {},
     coins: [],

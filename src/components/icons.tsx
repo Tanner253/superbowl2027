@@ -27,22 +27,40 @@ export const IconCoin = (p: P) => (
 );
 export const IconUsers = (p: P) => (
   <svg {...base} {...p}>
-    <circle cx="9" cy="8" r="3.5" />
-    <path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5" />
-    <path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c1.9.7 3.1 2.4 3.5 5.2" />
+    <path d="M4 20V9l8-5 8 5v11" />
+    <path d="M9 20v-6h6v6" />
+    <path d="M4 9h16" />
   </svg>
 );
+// The road to the Super Bowl: a bracket.
 export const IconFlag = (p: P) => (
   <svg {...base} {...p}>
-    <path d="M5 21V4" />
-    <path d="M5 4h13l-2.5 4L18 12H5" />
+    <path d="M3 5h5v5H3zM3 14h5v5H3z" />
+    <path d="M8 7.5h3v9H8M11 12h3" />
+    <path d="M14 9.5h7v5h-7z" />
   </svg>
 );
+// Fan Card: a ticket.
 export const IconBallot = (p: P) => (
   <svg {...base} {...p}>
-    <path d="M4 13h16v7H4z" />
-    <path d="M8 13V4h8v9" />
-    <path d="m10 8 1.5 1.5L14 7" />
+    <path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z" />
+    <path d="M14 7v10" strokeDasharray="2 2" />
+  </svg>
+);
+export const IconFootball = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M4.5 19.5c-1.6-5 .4-11 5-13.8 2.6-1.6 6.4-2.2 10-1.2 1 3.6.4 7.4-1.2 10-2.8 4.6-8.8 6.6-13.8 5z" />
+    <path d="m9 15 6-6M10.5 10.5l3 3M12.5 8.5l3 3M8.5 12.5l3 3" />
+  </svg>
+);
+export const IconMinus = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M6 12h12" />
+  </svg>
+);
+export const IconClose = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M6 6l12 12M18 6 6 18" />
   </svg>
 );
 export const IconX = (p: P) => (

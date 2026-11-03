@@ -10,15 +10,16 @@ export default function SectionTitle({
   id?: string;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
       <div>
-        <div className="flex items-center gap-2 font-narrow text-[11px] font-bold uppercase tracking-[0.4em] text-gold">
-          <span aria-hidden="true" className="h-1 w-3 bg-gold" />
+        <div className="flex items-center gap-2 font-narrow text-[11px] font-bold uppercase tracking-[0.4em] text-amber">
+          <span aria-hidden="true" className="h-0.5 w-4 bg-amber shadow-[0_0_8px_var(--color-amber)]" />
           {kicker}
         </div>
-        <h2 id={id} className="mt-2 font-slab text-[clamp(30px,5vw,60px)] uppercase leading-[0.95]">
+        <h2 id={id} className="flood-text mt-2 font-display text-[clamp(32px,5vw,62px)] uppercase leading-[0.95] tracking-[0.01em]">
           {title}
         </h2>
+        <div aria-hidden="true" className="hashmarks mt-3 h-2 w-40 opacity-60" />
       </div>
       {aside}
     </div>

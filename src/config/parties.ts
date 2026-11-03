@@ -1,14 +1,13 @@
-import type { Party } from "./candidates";
+import type { Conference } from "./candidates";
 
-// Party coins, launched from the dev wallet like the candidates: their fees feed the $PRESIDENT burn
-// too. `party` picks the card colour.
-export type PartyCoin = { id: string; name: string; ticker: string; party: Party; mint: string };
+// Conference coins, launched from the creator wallet like the teams: their fees feed the $SUPERBOWL
+// burn too. `conference` picks the card colour. Leave `mint` empty: the site fills it in from the
+// crank's coin list by ticker (an address typed here still wins).
+export type GroupCoin = { id: string; name: string; ticker: string; conference: Conference; mint: string };
 
-export const PARTY_COINS: PartyCoin[] = [
-  { id: "democrats", name: "Democrats", ticker: "DEMOCRATS", party: "D", mint: "" },
-  { id: "republicans", name: "Republicans", ticker: "REPUBLICANS", party: "R", mint: "" },
-  { id: "america-party", name: "America Party", ticker: "AMERICA", party: "I", mint: "" },
-  { id: "america-first", name: "America First", ticker: "AF", party: "R", mint: "" },
+export const GROUP_COINS: GroupCoin[] = [
+  { id: "afc", name: "AFC", ticker: "AFC", conference: "AFC", mint: "" },
+  { id: "nfc", name: "NFC", ticker: "NFC", conference: "NFC", mint: "" },
 ];
 
-export const partyKey = (id: string) => `party:${id}`;
+export const groupKey = (id: string) => `group:${id}`;

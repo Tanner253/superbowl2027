@@ -14,9 +14,9 @@ export default function Countdown({ to }: { to: string }) {
   return (
     <div className="flex gap-2">
       {cells.map((c) => (
-        <div key={c.unit} className="min-w-[58px] rounded-md bg-cream px-2 py-1.5 text-center text-ink">
-          <div className="font-slab text-2xl leading-none tabular-nums">{c.v}</div>
-          <div className="mt-1 font-narrow text-[11px] font-bold uppercase tracking-[0.18em]">{c.unit}</div>
+        <div key={c.unit} className="min-w-[58px] rounded-md border border-amber/30 bg-ink px-2 py-1.5 text-center">
+          <div className="led-text font-display text-2xl leading-none tabular-nums">{c.v}</div>
+          <div className="mt-1 font-narrow text-[11px] font-bold uppercase tracking-[0.18em] text-chalk/60">{c.unit}</div>
         </div>
       ))}
     </div>

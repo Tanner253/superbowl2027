@@ -1,37 +1,39 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import { Wrap } from "@/components/ui";
-import { CANDIDATES } from "@/config/candidates";
-import { PHOTOS } from "@/config/photos";
+import { SITE } from "@/config/site";
 
-export const metadata: Metadata = { title: "Photo credits" };
+export const metadata: Metadata = { title: "Data & credits" };
+
+const ROWS: { what: string; who: string; href?: string }[] = [
+  { what: "Title odds and conference odds", who: "Polymarket, “Pro Football: 2027 Champion” market", href: SITE.polymarketEvent },
+  { what: "Coin prices, market caps and volume", who: "DexScreener public API, with Jupiter for coins quoted in $SUPERBOWL", href: "https://dexscreener.com" },
+  { what: "Burned total", who: "Read straight from the Solana chain", href: "https://solscan.io" },
+  { what: "Fee-engine totals and holder counts", who: "Published by the project's crank after every cycle" },
+  { what: "Fonts", who: "Anton, Barlow Condensed, Inter and JetBrains Mono, under the SIL Open Font License", href: "https://fonts.google.com" },
+  { what: "Team cards, badges, the field-goal background and the kick-return game", who: "Drawn and written for this site; no team or league artwork is used" },
+];
 
 export default function CreditsPage() {
-  const rows = CANDIDATES.flatMap((c) => (PHOTOS[c.id] ? [{ c, p: PHOTOS[c.id] }] : []));
   return (
     <>
       <PageHero
-        title="Photo credits"
-        subtitle="Candidate photos come from Wikimedia Commons and are shown cropped. Their use here doesn't imply any endorsement by the people pictured or the photographers."
+        title="Data & credits"
+        subtitle={`Where every live number on ${SITE.name} comes from. Team names identify the teams the coins are about; this site is not affiliated with the NFL, any team or any player.`}
       />
       <Wrap className="pt-12">
-        <ul className="divide-y-2 divide-cream/10 border-[3px] border-cream bg-ink-2 shadow-brutal-gold">
-          {rows.map(({ c, p }) => (
-            <li key={c.id} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 px-4 py-3 text-sm">
-              <span className="font-bold">{c.name}</span>
-              <span className="text-cream/70">
-                {p.author} ·{" "}
-                {p.licenseUrl ? (
-                  <a href={p.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-gold">
-                    {p.license}
+        <ul className="panel divide-y divide-chalk/10 overflow-hidden rounded-xl">
+          {ROWS.map((r) => (
+            <li key={r.what} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 px-4 py-3 text-sm">
+              <span className="font-bold">{r.what}</span>
+              <span className="text-chalk/70">
+                {r.href ? (
+                  <a href={r.href} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-amber">
+                    {r.who}
                   </a>
                 ) : (
-                  p.license
-                )}{" "}
-                ·{" "}
-                <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-gold">
-                  Source
-                </a>
+                  r.who
+                )}
               </span>
             </li>
           ))}

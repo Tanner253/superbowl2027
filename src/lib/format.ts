@@ -86,4 +86,4 @@ export function fmtDate(iso: string, withYear = false) {
 }
 
 export const changeColor = (n: number | null | undefined) =>
-  !isNum(n) || n === 0 ? "text-cream/60" : n > 0 ? "text-lime" : "text-red-hot";
+  !isNum(n) || n === 0 ? "text-chalk/60" : n > 0 ? "text-lime" : "text-red-hot";

@@ -10,9 +10,9 @@ import SectionTitle from "../SectionTitle";
 import { Wrap } from "../ui";
 
 const STEP_MS = 6000;
-const COLORS = ["var(--color-sky)", "var(--color-red-hot)", "var(--color-gold)", "var(--color-lime)"];
+const COLORS = ["var(--color-sky)", "var(--color-red-hot)", "var(--color-amber)", "var(--color-lime)"];
 
-// WC's ecosystem explainer: an auto-playing "broadcast" of the four steps of every fee cycle.
+// The fee engine explainer: an auto-playing broadcast of the four steps of every fee cycle.
 export default function EngineSteps() {
   const { stats, mints } = useMarket();
   const reduced = useReducedMotion();
@@ -43,9 +43,9 @@ export default function EngineSteps() {
           title={`How it feeds $${SITE.ticker}`}
           aside={
             stats?.nextCycleAt ? (
-              <div className="font-narrow font-bold uppercase tracking-[0.16em] text-cream/70">
+              <div className="font-narrow font-bold uppercase tracking-[0.16em] text-chalk/70">
                 Next cycle in{" "}
-                <span className="text-cream">
+                <span className="led-text">
                   <CycleTimer next={stats.nextCycleAt} intervalMs={stats.cycleIntervalMs} />
                 </span>
               </div>
@@ -53,7 +53,7 @@ export default function EngineSteps() {
           }
         />
         <div
-          className="border-[3px] border-cream bg-ink-2 shadow-brutal-gold"
+          className="panel overflow-hidden rounded-xl"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
@@ -62,25 +62,26 @@ export default function EngineSteps() {
         >
           <div className="relative grid min-h-[300px] overflow-hidden md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]" role="tabpanel" id="engine-panel" aria-labelledby={`engine-tab-${step}`}>
             <div className="scanlines pointer-events-none absolute inset-0" aria-hidden="true" />
-            <div className="relative flex items-center justify-center border-b-[3px] border-cream/15 bg-ink p-6 md:border-b-0 md:border-r-[3px]">
+            <div className="turf relative flex items-center justify-center border-b border-chalk/10 p-6 md:border-b-0 md:border-r">
+              <div aria-hidden="true" className="yardlines absolute inset-0 opacity-60" />
               <Illustration step={step} color={color} />
             </div>
             <div key={step} className="relative animate-rise p-6 sm:p-8">
               <div className="font-narrow text-sm font-bold uppercase tracking-[0.3em]" style={{ color }}>
                 Step {s.num} / 0{ENGINE_STEPS.length}
               </div>
-              <h3 className="mt-2 font-slab text-[clamp(36px,5vw,56px)] uppercase leading-none" style={{ color }}>
+              <h3 className="mt-2 font-display text-[clamp(40px,5vw,62px)] uppercase leading-none tracking-[0.02em]" style={{ color }}>
                 {s.title}
               </h3>
-              <p className="mt-4 max-w-xl text-lg text-cream/85">{s.body}</p>
-              <div className="mt-6 inline-flex flex-col border-[3px] border-ink bg-ink px-4 py-3 shadow-brutal-sm">
-                <span className="font-narrow text-[11px] font-bold uppercase tracking-[0.24em] text-cream/60">{live[step].label}</span>
-                <span className="font-slab text-2xl tabular-nums">{pre ? "Starts at launch" : live[step].value}</span>
+              <p className="mt-4 max-w-xl text-lg text-chalk/85">{s.body}</p>
+              <div className="led mt-6 inline-flex flex-col rounded-md border border-amber/30 bg-ink px-4 py-3">
+                <span className="font-narrow text-[11px] font-bold uppercase tracking-[0.24em] text-chalk/60">{live[step].label}</span>
+                <span className="led-text font-display text-2xl tabular-nums tracking-[0.02em]">{pre ? "Starts at launch" : live[step].value}</span>
               </div>
             </div>
           </div>
 
-          <div role="tablist" aria-label="Fee cycle steps" className="grid grid-cols-2 border-t-[3px] border-cream sm:grid-cols-4">
+          <div role="tablist" aria-label="Fee cycle steps" className="grid grid-cols-2 border-t border-chalk/15 sm:grid-cols-4">
             {ENGINE_STEPS.map((x, i) => (
               <button
                 key={x.num}
@@ -93,11 +94,11 @@ export default function EngineSteps() {
                   setStep(i);
                   setPaused(true);
                 }}
-                className={`relative flex min-h-[52px] items-center gap-2 overflow-hidden border-cream/20 px-4 py-3 text-left transition [&:nth-child(odd)]:border-r-2 sm:[&:not(:last-child)]:border-r-2 ${
-                  i === step ? "bg-cream text-ink" : "text-cream/75 hover:bg-cream/10"
+                className={`relative flex min-h-[52px] items-center gap-2 overflow-hidden border-chalk/10 px-4 py-3 text-left transition [&:nth-child(odd)]:border-r sm:[&:not(:last-child)]:border-r ${
+                  i === step ? "bg-chalk text-ink" : "text-chalk/75 hover:bg-chalk/10"
                 }`}
               >
-                <span className="font-slab text-lg leading-none">{x.num}</span>
+                <span className="font-display text-lg leading-none">{x.num}</span>
                 <span className="font-narrow text-sm font-bold uppercase tracking-[0.12em]">{x.title}</span>
                 {i === step && !paused && !reduced && (
                   <span
@@ -120,8 +121,8 @@ function Illustration({ step, color }: { step: number; color: string }) {
   if (step === 0)
     return (
       <svg viewBox="0 0 200 140" className="w-full max-w-[280px]" aria-hidden="true">
-        <rect x="70" y="70" width="60" height="50" fill="var(--color-navy-2)" stroke="var(--color-cream)" strokeWidth="4" />
-        <rect x="88" y="66" width="24" height="8" fill="var(--color-cream)" />
+        <rect x="70" y="70" width="60" height="50" fill="var(--color-night-3)" stroke="var(--color-chalk)" strokeWidth="4" />
+        <rect x="88" y="66" width="24" height="8" fill="var(--color-chalk)" />
         {[-70, -35, 0, 35, 70].map((dx, i) => (
           <circle
             key={dx}
@@ -141,15 +142,15 @@ function Illustration({ step, color }: { step: number; color: string }) {
       <svg viewBox="0 0 200 140" className="w-full max-w-[280px]" aria-hidden="true">
         <g style={{ transformOrigin: "100px 128px", animation: "flame 0.6s ease-in-out infinite" }}>
           <path d="M100 20c18 26 38 40 38 70a38 38 0 0 1-76 0c0-18 10-26 18-38 2 14 8 20 14 22-2-22 0-38 6-54z" fill="var(--color-red-hot)" stroke="var(--color-ink)" strokeWidth="4" />
-          <path d="M100 66c10 12 18 20 18 34a18 18 0 0 1-36 0c0-12 10-20 18-34z" fill="var(--color-gold)" />
+          <path d="M100 66c10 12 18 20 18 34a18 18 0 0 1-36 0c0-12 10-20 18-34z" fill="var(--color-amber)" />
         </g>
-        <circle cx="100" cy="10" r="8" fill="var(--color-gold)" stroke="var(--color-ink)" strokeWidth="3" style={{ ["--dx" as string]: "0px", animation: "coin-in 1.6s ease-in infinite" }} />
+        <circle cx="100" cy="10" r="8" fill="var(--color-amber)" stroke="var(--color-ink)" strokeWidth="3" style={{ ["--dx" as string]: "0px", animation: "coin-in 1.6s ease-in infinite" }} />
       </svg>
     );
   if (step === 2)
     return (
       <svg viewBox="0 0 200 140" className="w-full max-w-[280px]" aria-hidden="true">
-        <rect x="40" y="30" width="120" height="96" fill="var(--color-ink-3)" stroke="var(--color-cream)" strokeWidth="4" />
+        <rect x="40" y="30" width="120" height="96" fill="var(--color-ink)" stroke="var(--color-chalk)" strokeWidth="4" />
         <rect
           x="44"
           y="34"
@@ -158,15 +159,15 @@ function Illustration({ step, color }: { step: number; color: string }) {
           fill={color}
           style={{ transformOrigin: "100px 122px", animation: "pool-fill 3s ease-in-out infinite alternate" }}
         />
-        <text x="100" y="86" textAnchor="middle" fontFamily="var(--ff-slab)" fontSize="18" fill="var(--color-ink)">
+        <text x="100" y="86" textAnchor="middle" fontFamily="var(--ff-display)" fontSize="20" fill="var(--color-ink)">
           LP
         </text>
       </svg>
     );
   return (
     <svg viewBox="0 0 200 140" className="w-full max-w-[280px]" aria-hidden="true">
-      <path d="M40 60h24l44-26v72L64 80H40z" fill="var(--color-cream)" stroke="var(--color-ink)" strokeWidth="4" strokeLinejoin="round" />
-      <rect x="48" y="80" width="14" height="28" fill="var(--color-cream)" stroke="var(--color-ink)" strokeWidth="4" />
+      <path d="M40 60h24l44-26v72L64 80H40z" fill="var(--color-chalk)" stroke="var(--color-ink)" strokeWidth="4" strokeLinejoin="round" />
+      <rect x="48" y="80" width="14" height="28" fill="var(--color-chalk)" stroke="var(--color-ink)" strokeWidth="4" />
       {[0, 0.6, 1.2].map((d) => (
         <path
           key={d}

@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useCandidateRows, type CandidateRow } from "@/lib/market-context";
+import { useTeamRows, type TeamRow } from "@/lib/market-context";
 import SectionTitle from "../SectionTitle";
 import TokenCard from "../TokenCard";
 import { Wrap } from "../ui";
 
-type Pick = { r: CandidateRow; label: string; tone: string };
+type Pick = { r: TeamRow; label: string; tone: string };
 
 // Top gainer & top loser over 24h. Before any coin is live, the biggest Polymarket odds
-// movers over 7 days stand in, and failing that the two frontrunners.
-function pickMovers(rows: CandidateRow[]): { kicker: string; title: string; picks: Pick[] } {
+// movers over 7 days stand in, and failing that the two favorites.
+function pickMovers(rows: TeamRow[]): { kicker: string; title: string; picks: Pick[] } {
   const live = rows.filter((r) => r.market);
   if (live.length >= 2) {
     const s = [...live].sort((a, b) => b.market!.change24h - a.market!.change24h);
@@ -19,7 +19,7 @@ function pickMovers(rows: CandidateRow[]): { kicker: string; title: string; pick
       title: "Top gainer & top loser",
       picks: [
         { r: s[0], label: "▲ Top gainer", tone: "bg-lime text-ink" },
-        { r: s.at(-1)!, label: "▼ Top loser", tone: "bg-red-hot text-cream" },
+        { r: s.at(-1)!, label: "▼ Top loser", tone: "bg-red-hot text-chalk" },
       ],
     };
   }
@@ -32,23 +32,23 @@ function pickMovers(rows: CandidateRow[]): { kicker: string; title: string; pick
         title: "Biggest odds movers",
         picks: [
           { r: s[0], label: "▲ Odds riser", tone: "bg-lime text-ink" },
-          { r: s.at(-1)!, label: "▼ Odds faller", tone: "bg-red-hot text-cream" },
+          { r: s.at(-1)!, label: "▼ Odds faller", tone: "bg-red-hot text-chalk" },
         ],
       };
   }
   const top = [...rows].sort((a, b) => (b.odds ?? -1) - (a.odds ?? -1));
   return {
     kicker: "Polymarket",
-    title: "The frontrunners",
+    title: "The favorites",
     picks: [
-      { r: top[0], label: "★ Frontrunner", tone: "bg-gold text-ink" },
-      { r: top[1], label: "Runner-up", tone: "bg-cream text-ink" },
+      { r: top[0], label: "◆ Title favorite", tone: "bg-amber text-ink" },
+      { r: top[1], label: "Next in line", tone: "bg-chalk text-ink" },
     ],
   };
 }
 
 export default function Movers() {
-  const { kicker, title, picks } = pickMovers(useCandidateRows());
+  const { kicker, title, picks } = pickMovers(useTeamRows());
   return (
     <section className="py-14 sm:py-20">
       <Wrap>
@@ -56,7 +56,7 @@ export default function Movers() {
           kicker={kicker}
           title={title}
           aside={
-            <Link href="/candidates/" className="font-narrow font-bold uppercase tracking-[0.16em] text-gold hover:text-cream">
+            <Link href="/teams/" className="font-narrow font-bold uppercase tracking-[0.16em] text-amber hover:text-chalk">
               See all →
             </Link>
           }
@@ -67,7 +67,7 @@ export default function Movers() {
               key={label}
               r={r}
               fallback="board"
-              banner={<div className={`border-b-[3px] border-cream px-4 py-2 font-narrow text-sm font-bold uppercase tracking-[0.24em] ${tone}`}>{label}</div>}
+              banner={<div className={`px-4 py-2 font-narrow text-sm font-bold uppercase tracking-[0.24em] ${tone}`}>{label}</div>}
             />
           ))}
         </div>

@@ -2,10 +2,11 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { SITE } from "@/config/site";
 import { ENTERED_KEY } from "@/lib/splash";
-import Seal from "./Seal";
+import Badge from "./Badge";
 
-const GATED = new Set(["/", "/president", "/candidates", "/race", "/voters"]);
+const GATED = new Set(["/", "/superbowl", "/teams", "/road", "/fans"]);
 
 export default function Splash() {
   const path = (usePathname() ?? "/").replace(/\/+$/, "") || "/";
@@ -45,33 +46,37 @@ export default function Splash() {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Welcome to US President 2028"
-      className={`fixed inset-0 z-50 flex items-center justify-center overflow-clip bg-navy transition-opacity duration-200 [html[data-entered]_&]:hidden ${
+      aria-label={`Welcome to ${SITE.name}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-clip bg-ink transition-opacity duration-200 [html[data-entered]_&]:hidden ${
         leaving ? "opacity-0" : "opacity-100"
       }`}
     >
       <div aria-hidden="true" className="absolute inset-0">
-        <div className="stars absolute inset-0" />
-        <div className="absolute -left-1/4 top-[55%] h-[70%] w-[150%] -rotate-6 bg-red" />
-        <div className="stripes absolute -left-1/4 top-[52%] h-6 w-[150%] -rotate-6 opacity-90" />
-        <div className="absolute -right-[20%] -top-[30%] h-[80%] w-[60%] rotate-12 bg-blue/60" />
+        <div className="absolute -left-1/4 -top-1/3 h-[80%] w-[70%] rounded-full bg-flood/15 blur-3xl" />
+        <div className="absolute -right-1/4 -top-1/3 h-[80%] w-[70%] rounded-full bg-flood/15 blur-3xl" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 [mask-image:linear-gradient(to_bottom,transparent_40%,#000_100%)] [perspective:500px]">
+          <div className="turf absolute inset-x-[-40%] bottom-[-30%] top-0 origin-bottom [transform:rotateX(64deg)]">
+            <div className="yardlines absolute inset-0" />
+          </div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_100%,rgb(255_243_207/0.16),transparent_70%)]" />
+        </div>
       </div>
 
       <div className="relative flex animate-rise flex-col items-center px-4 text-center">
-        <Seal size={132} className="drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" />
-        <div className="poster-shadow mt-6 font-slab text-[clamp(44px,11vw,104px)] leading-[0.95] text-cream">
-          US PRESIDENT
+        <Badge size={136} className="drop-shadow-[0_0_40px_rgba(255,194,61,0.35)]" />
+        <div className="flood-text mt-6 font-display text-[clamp(52px,12vw,116px)] uppercase leading-[0.9] text-chalk">
+          Super Bowl
           <br />
-          <span className="text-gold">2028</span>
+          <span className="text-amber">2027</span>
         </div>
-        <p className="mt-4 font-narrow text-sm font-bold uppercase tracking-[0.4em] text-cream/90">Exclusively on pump.fun</p>
+        <p className="mt-4 font-narrow text-sm font-bold uppercase tracking-[0.4em] text-chalk/90">Exclusively on pump.fun</p>
         <button
           ref={button}
           type="button"
           onClick={enter}
-          className="mt-10 border-[3px] border-ink bg-gold px-8 py-4 font-narrow text-xl font-bold uppercase tracking-[0.18em] text-ink shadow-brutal-md transition hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-[6px] active:translate-y-[6px] active:shadow-none"
+          className="mt-10 rounded-md bg-amber px-8 py-4 font-narrow text-xl font-bold uppercase tracking-[0.18em] text-ink shadow-glow transition hover:-translate-y-0.5 hover:bg-flood active:translate-y-0.5"
         >
-          Enter the campaign →
+          Enter the stadium →
         </button>
       </div>
     </div>

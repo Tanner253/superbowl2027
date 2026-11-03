@@ -1,49 +1,47 @@
-import type { Party } from "./candidates";
+import type { Conference } from "./candidates";
 
 export const STAGES = [
-  { id: "field", label: "The Field", short: "Field", when: "2026–27", blurb: "Names test the waters and declare." },
-  { id: "debates", label: "Debates", short: "Debates", when: "2027", blurb: "Primary debates thin the field." },
-  { id: "early", label: "Early States", short: "Early", when: "Jan–Feb 2028", blurb: "The first caucuses and primaries." },
-  { id: "super", label: "Super Tuesday", short: "Super Tue", when: "Mar 7, 2028", blurb: "The biggest single day of the primaries." },
-  { id: "primaries", label: "Primaries", short: "Primaries", when: "Mar–Jun 2028", blurb: "The delegate race to the nomination." },
-  { id: "conventions", label: "Conventions", short: "Conventions", when: "Summer 2028", blurb: "Each party crowns its nominee." },
-  { id: "general", label: "Election Day", short: "Nov 7", when: "Nov 7, 2028", blurb: "Nominee vs nominee. One winner." },
+  { id: "season", label: "Regular Season", short: "Season", when: "Through Jan 10", blurb: "Eighteen weeks to earn a playoff seat." },
+  { id: "wildcard", label: "Wild Card", short: "Wild Card", when: "Jan 16–18", blurb: "Twelve teams, six games, no second chances." },
+  { id: "divisional", label: "Divisional", short: "Divisional", when: "Jan 23–24", blurb: "Eight teams left. The top seeds enter." },
+  { id: "conference", label: "Conference Championships", short: "Conference", when: "Jan 31", blurb: "One AFC champion, one NFC champion." },
+  { id: "superbowl", label: "Super Bowl", short: "Feb 14", when: "Feb 14, 2027", blurb: "SoFi Stadium, Inglewood. One champion." },
 ] as const;
 
 export type StageId = (typeof STAGES)[number]["id"];
 
-// Move this forward as the race progresses.
-export const CURRENT_STAGE: StageId = "field";
+// Move this forward as the season progresses.
+export const CURRENT_STAGE: StageId = "season";
 
 export const stageIndex = (id: StageId) => STAGES.findIndex((s) => s.id === id);
 export const stageLabel = (id: StageId) => STAGES[stageIndex(id)].label;
 
-// The race calendar (WC's fixtures). Add dates as they're announced and fill in
-// `result` once an event is decided. Events without a date show as "TBD".
+// The season calendar. Add dates as they're announced and fill in `result` once a game is decided.
+// Events without a date show as "TBD".
 export type RaceEvent = {
   id: string;
   title: string;
   stage: StageId;
   // ISO date (YYYY-MM-DD) or null when not announced yet.
   date: string | null;
-  // Shown when date is null, e.g. "Early 2028".
+  // Shown when date is null, e.g. "Late January".
   when?: string;
   place: string;
-  party?: Party;
-  // e.g. "Vance wins", "Called · Newsom". Presence marks the event as decided.
+  conference?: Conference;
+  // e.g. "Bills 27, Chiefs 24". Presence marks the event as decided.
   result?: string;
 };
 
 export const EVENTS: RaceEvent[] = [
-  { id: "midterms-2026", title: "Midterm elections", stage: "field", date: "2026-11-03", place: "Nationwide" },
-  { id: "gop-debates", title: "First Republican primary debate", stage: "debates", date: null, when: "2027", place: "TBD", party: "R" },
-  { id: "dem-debates", title: "First Democratic primary debate", stage: "debates", date: null, when: "2027", place: "TBD", party: "D" },
-  { id: "first-contests", title: "First caucuses & primaries", stage: "early", date: null, when: "Early 2028", place: "Early states" },
-  { id: "super-tuesday", title: "Super Tuesday", stage: "super", date: "2028-03-07", place: "Multi-state primaries" },
-  { id: "rnc", title: "Republican National Convention", stage: "conventions", date: null, when: "Summer 2028", place: "TBD", party: "R" },
-  { id: "dnc", title: "Democratic National Convention", stage: "conventions", date: null, when: "Summer 2028", place: "TBD", party: "D" },
-  { id: "election-day", title: "Election Day", stage: "general", date: "2028-11-07", place: "Nationwide" },
-  { id: "inauguration", title: "Inauguration Day", stage: "general", date: "2029-01-20", place: "Washington, D.C." },
+  { id: "week-18", title: "Week 18: regular season finale", stage: "season", date: "2027-01-10", place: "Every stadium" },
+  { id: "wild-card-sat", title: "Wild Card Saturday", stage: "wildcard", date: "2027-01-16", place: "Home of the higher seeds" },
+  { id: "wild-card-sun", title: "Wild Card Sunday", stage: "wildcard", date: "2027-01-17", place: "Home of the higher seeds" },
+  { id: "wild-card-mon", title: "Wild Card Monday", stage: "wildcard", date: "2027-01-18", place: "Home of the higher seeds" },
+  { id: "divisional-sat", title: "Divisional Saturday", stage: "divisional", date: "2027-01-23", place: "Home of the higher seeds" },
+  { id: "divisional-sun", title: "Divisional Sunday", stage: "divisional", date: "2027-01-24", place: "Home of the higher seeds" },
+  { id: "afc-title", title: "AFC Championship Game", stage: "conference", date: "2027-01-31", place: "Home of the higher seed", conference: "AFC" },
+  { id: "nfc-title", title: "NFC Championship Game", stage: "conference", date: "2027-01-31", place: "Home of the higher seed", conference: "NFC" },
+  { id: "super-bowl", title: "Super Bowl LXI", stage: "superbowl", date: "2027-02-14", place: "SoFi Stadium, Inglewood, California" },
 ];
 
 // Events count as upcoming until the end of their day (US Eastern, roughly).

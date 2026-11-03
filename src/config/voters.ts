@@ -1,8 +1,8 @@
 /*
-  Voter Card (WC's Passport): a read-only leaderboard of every wallet on the 2028 rolls.
+  Fan Card: a read-only leaderboard of every wallet on the 2027 roster.
 
   The claim process publishes these files under VOTER_CARD.rosterUrl (default /data/roster/),
-  on the same hourly cycle as the fee-engine stats, and stops updating them once the polls close:
+  on the same cycle as the fee-engine stats, and stops updating them at the final whistle:
 
   board-meta.json
     { "totalEntries": 9966, "pageCount": 200, "pageSize": 50 }
@@ -17,24 +17,24 @@
     }
 
   - rank: 1-based and contiguous across pages. The score behind it stays private ("earlier and steadier ranks higher").
-  - band: one of the TIERS keys below.
+  - band: one of the TIERS keys below. The keys are President's, so the same claim process works unchanged.
   - badges: keys from BADGES, in canonical order. Every entry has REGISTERED.
   - resolvedResultBadges: result badges whose outcome is final. Until a result badge is listed here
     the page shows it unlit with "resolves …", whatever the entry says.
   - An optional "consistency" field per entry is accepted and ignored.
 
-  Until board-meta.json exists (or while totalEntries is 0) the page shows the "rolls open at launch" state.
+  Until board-meta.json exists (or while totalEntries is 0) the page shows the "roster opens at launch" state.
 */
 
 export const PAGE_SIZE = 50;
 
 // Low → high. Labels and blurbs can change freely; the JSON only carries the key.
 export const TIERS = [
-  { key: "VOTER", label: "Voter", blurb: "Made the rolls. Every wallet starts here.", pill: "text-cream/60" },
-  { key: "VOLUNTEER", label: "Volunteer", blurb: "Showed up and kept holding.", pill: "text-cream/80" },
-  { key: "ORGANIZER", label: "Organizer", blurb: "Early and steady. The ground game.", pill: "text-cream" },
-  { key: "DELEGATE", label: "Delegate", blurb: "Near the top of the rolls.", pill: "text-gold" },
-  { key: "ELECTOR", label: "Elector", blurb: "The very top. Earliest and steadiest.", pill: "bg-gold px-1.5 text-ink" },
+  { key: "VOTER", label: "Rookie", blurb: "Made the roster. Every wallet starts here.", pill: "text-chalk/60" },
+  { key: "VOLUNTEER", label: "Starter", blurb: "Showed up and kept holding.", pill: "text-chalk/80" },
+  { key: "ORGANIZER", label: "Pro Bowler", blurb: "Early and steady. Every week.", pill: "text-chalk" },
+  { key: "DELEGATE", label: "All-Pro", blurb: "Near the top of the roster.", pill: "text-amber" },
+  { key: "ELECTOR", label: "Hall of Famer", blurb: "The very top. Earliest and steadiest.", pill: "bg-amber px-1.5 text-ink" },
 ] as const;
 
 export type TierKey = (typeof TIERS)[number]["key"];
@@ -54,30 +54,30 @@ type BadgeDef = {
 
 // Canonical order: the badge strip always shows these slots in this order.
 export const BADGES = [
-  { key: "REGISTERED", label: "Registered", how: "made the rolls", kind: "standing" },
-  { key: "STANDARD_BEARER", label: "Standard-Bearer", how: "carried $president", kind: "standing" },
-  { key: "DIE_HARD", label: "Die-Hard", how: "held on after they dropped out", kind: "standing" },
-  { key: "BIG_TENT", label: "Big Tent", how: "five candidates, one wallet", kind: "standing" },
+  { key: "REGISTERED", label: "Season Ticket", how: "made the roster", kind: "standing" },
+  { key: "STANDARD_BEARER", label: "Captain", how: "carried $superbowl", kind: "standing" },
+  { key: "DIE_HARD", label: "Die-Hard", how: "held on after they were eliminated", kind: "standing" },
+  { key: "BIG_TENT", label: "Front Office", how: "five teams, one wallet", kind: "standing" },
   {
     key: "NOMINEE",
-    label: "Nominee",
-    how: "held a party's nominee when they were crowned",
+    label: "Conference Champ",
+    how: "held a conference champion when they were crowned",
     kind: "result",
-    resolvesAt: "resolves at the conventions",
+    resolvesAt: "resolves Jan 31",
   },
   {
     key: "RUNNER_UP",
     label: "Runner-Up",
-    how: "held the runner-up when the race was called",
+    how: "held the runner-up at the final whistle",
     kind: "result",
-    resolvesAt: "resolves election night",
+    resolvesAt: "resolves Feb 14",
   },
   {
     key: "PRESIDENT_ELECT",
-    label: "President-Elect",
-    how: "held the winner when the race was called",
+    label: "Champion",
+    how: "held the champion at the final whistle",
     kind: "result",
-    resolvesAt: "resolves election night",
+    resolvesAt: "resolves Feb 14",
   },
   { key: "MYSTERY", label: "?", how: "?", kind: "mystery" },
 ] as const satisfies readonly BadgeDef[];
@@ -85,7 +85,7 @@ export const BADGES = [
 export type BadgeKey = (typeof BADGES)[number]["key"];
 export type Badge = (typeof BADGES)[number];
 
-// Badges counted in the hero chip ("Badges 8") include the mystery slot, like WC.
+// Badges counted in the hero chip ("Badges 8") include the mystery slot.
 export const BADGE_COUNT = BADGES.length;
 
 export type RosterMeta = { totalEntries: number; pageCount: number; pageSize: number };

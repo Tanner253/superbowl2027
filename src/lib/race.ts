@@ -1,71 +1,70 @@
-import { CANDIDATES, isAlive, type Candidate, type Party } from "@/config/candidates";
+import { TEAMS, isAlive, type Conference, type Team } from "@/config/candidates";
 import { CURRENT_STAGE, stageIndex, type StageId } from "@/config/race";
 
-// The road to the White House as bracket columns (WC's knockout rounds).
-// Each column covers one or more race stages.
+// The road to the Super Bowl as bracket columns, one per round. Each column covers one stage.
 export const ROAD = [
-  { id: "field", label: "The Field", short: "Field", stages: ["field", "debates"] },
-  { id: "early", label: "Early States", short: "Early", stages: ["early"] },
-  { id: "super", label: "Super Tuesday", short: "Super Tue", stages: ["super", "primaries"] },
-  { id: "nominee", label: "Nominee", short: "Nominee", stages: ["conventions"] },
+  { id: "season", label: "Regular Season", short: "Season", stages: ["season"] },
+  { id: "wildcard", label: "Wild Card", short: "Wild Card", stages: ["wildcard"] },
+  { id: "divisional", label: "Divisional", short: "Divisional", stages: ["divisional"] },
+  { id: "conference", label: "Conference", short: "Conference", stages: ["conference"] },
 ] as const satisfies readonly { id: string; label: string; short: string; stages: readonly StageId[] }[];
 
 export type RoadId = (typeof ROAD)[number]["id"];
 
 const columnOf = (stage: StageId) => ROAD.findIndex((col) => (col.stages as readonly StageId[]).includes(stage));
 
-// Index of the furthest road column the race itself has reached (election day = past the last column).
-export const currentColumn = () => (CURRENT_STAGE === "general" ? ROAD.length : columnOf(CURRENT_STAGE));
+// Index of the furthest road column the season itself has reached (Super Bowl = past the last column).
+export const currentColumn = () => (CURRENT_STAGE === "superbowl" ? ROAD.length : columnOf(CURRENT_STAGE));
 
-// Furthest column a candidate reached. Nominees and the winner made it all the way.
-export function reachedColumn(c: Candidate) {
-  if (c.status === "nominee" || c.status === "winner") return ROAD.length - 1;
-  if (c.status === "out") return c.outAt ? Math.max(0, columnOf(c.outAt)) : 0;
+// Furthest column a team reached. Conference champions and the champion made it all the way.
+export function reachedColumn(t: Team) {
+  if (t.status === "nominee" || t.status === "winner") return ROAD.length - 1;
+  if (t.status === "out") return t.outAt ? Math.max(0, Math.min(columnOf(t.outAt), ROAD.length - 1)) : 0;
   return Math.min(currentColumn(), ROAD.length - 2);
 }
 
-export const nomineeOf = (party: Party) =>
-  CANDIDATES.find((c) => c.party === party && (c.status === "nominee" || c.status === "winner"));
-export const winner = () => CANDIDATES.find((c) => c.status === "winner");
+export const championOf = (conf: Conference) => TEAMS.find((t) => t.conference === conf && (t.status === "nominee" || t.status === "winner"));
+export const winner = () => TEAMS.find((t) => t.status === "winner");
 
-// Higher = lasted longer. Used to order lists (winner, nominees, still in, then by how late they dropped out).
-export function survival(c: Candidate) {
-  if (c.status === "winner") return 100;
-  if (c.status === "nominee") return 90;
-  if (isAlive(c)) return 80;
-  return c.outAt ? stageIndex(c.outAt) : 0;
+// Higher = lasted longer. Used to order lists (champion, conference champions, still alive, then by
+// how late they were knocked out).
+export function survival(t: Team) {
+  if (t.status === "winner") return 100;
+  if (t.status === "nominee") return 90;
+  if (isAlive(t)) return 80;
+  return t.outAt ? stageIndex(t.outAt) : 0;
 }
 
-// ---- "Call the race" ballot
+// ---- Pick'em: AFC champion, NFC champion, Super Bowl winner
 
-export type Ballot = { R: string | null; D: string | null; P: string | null };
-export const EMPTY_BALLOT: Ballot = { R: null, D: null, P: null };
+export type Ballot = { A: string | null; N: string | null; W: string | null };
+export const EMPTY_BALLOT: Ballot = { A: null, N: null, W: null };
 
-const byId = (id: string | null) => (id ? CANDIDATES.find((c) => c.id === id) : undefined);
-export const ballotCandidate = byId;
+const byId = (id: string | null) => (id ? TEAMS.find((t) => t.id === id) : undefined);
+export const ballotTeam = byId;
 
-// Drop picks that no longer make sense (unknown ids, wrong party, president not among the finalists).
+// Drop picks that no longer make sense (unknown ids, wrong conference, winner not one of the two).
 export function cleanBallot(b: Partial<Ballot> | null | undefined): Ballot {
-  const R = byId(b?.R ?? null)?.party === "R" ? b!.R! : null;
-  const D = byId(b?.D ?? null)?.party === "D" ? b!.D! : null;
-  const p = byId(b?.P ?? null);
-  const P = p && (p.id === R || p.id === D || p.party === "I") ? p.id : null;
-  return { R, D, P };
+  const A = byId(b?.A ?? null)?.conference === "AFC" ? b!.A! : null;
+  const N = byId(b?.N ?? null)?.conference === "NFC" ? b!.N! : null;
+  const w = byId(b?.W ?? null);
+  const W = w && (w.id === A || w.id === N) ? w.id : null;
+  return { A, N, W };
 }
 
-// Share code: candidate ids joined by "." (empty slot = "-"), e.g. "vance.newsom.vance".
-export const encodeBallot = (b: Ballot) => [b.R, b.D, b.P].map((x) => x ?? "-").join(".");
+// Share code: team ids joined by "." (empty slot = "-"), e.g. "bills.49ers.bills".
+export const encodeBallot = (b: Ballot) => [b.A, b.N, b.W].map((x) => x ?? "-").join(".");
 export function decodeBallot(code: string | null): Ballot | null {
   if (!code) return null;
-  const [R, D, P] = code.split(".").map((x) => (x && x !== "-" ? x : null));
-  const b = cleanBallot({ R, D, P });
-  return b.R || b.D || b.P ? b : null;
+  const [A, N, W] = code.split(".").map((x) => (x && x !== "-" ? x : null));
+  const b = cleanBallot({ A, N, W });
+  return b.A || b.N || b.W ? b : null;
 }
 
-// Picks scored only where reality has decided: right / decided.
+// Picks scored only where the season has decided: right / decided.
 export function scoreBallot(b: Ballot) {
-  const truth: Ballot = { R: nomineeOf("R")?.id ?? null, D: nomineeOf("D")?.id ?? null, P: winner()?.id ?? null };
-  const slots = (["R", "D", "P"] as const).filter((k) => truth[k]);
+  const truth: Ballot = { A: championOf("AFC")?.id ?? null, N: championOf("NFC")?.id ?? null, W: winner()?.id ?? null };
+  const slots = (["A", "N", "W"] as const).filter((k) => truth[k]);
   return {
     truth,
     decided: slots.length,

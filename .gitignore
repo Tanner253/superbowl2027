@@ -44,3 +44,6 @@ next-env.d.ts
 
 # Local preview mode (fake numbers) is safe to share
 !.env.development
+
+# Local tool config
+.claude

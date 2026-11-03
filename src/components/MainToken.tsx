@@ -27,11 +27,11 @@ export default function MainToken() {
   return (
     <>
       <PageHero
-        variant="blue"
+        variant="night"
         kicker="The main coin"
         title={`$${SITE.ticker}`}
         titleClass="text-[clamp(40px,9vw,72px)] lg:text-[56px] xl:text-[80px]"
-        subtitle="Every candidate coin's fees buy it and burn it. Watch the burn live."
+        subtitle="Every team coin's fees buy it and burn it. Watch the burn live."
         aside={
           <div className="w-full lg:w-[420px] xl:w-[520px]">
             <BurnCam />
@@ -45,19 +45,19 @@ export default function MainToken() {
       </PageHero>
 
       <Wrap className="pt-14">
-        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4 border-b-[3px] border-cream/15 pb-6">
+        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4 border-b border-chalk/15 pb-6">
           <div>
-            <Label className="text-gold">Market cap</Label>
-            <div className="font-slab text-[clamp(40px,7vw,72px)] leading-none tabular-nums">{m ? fmtUsd(m.marketCap) : empty || "—"}</div>
+            <Label className="text-amber">Market cap</Label>
+            <div className="led-text font-display text-[clamp(44px,7vw,80px)] leading-none tabular-nums">{m ? fmtUsd(m.marketCap) : empty || "—"}</div>
             {m && (
               <div className={`mt-1 font-narrow text-lg font-bold tabular-nums ${changeColor(m.change24h)}`}>
-                {fmtDir(m.change24h)} <span className="text-cream/60">(24H)</span>
+                {fmtDir(m.change24h)} <span className="text-chalk/60">(24H)</span>
               </div>
             )}
           </div>
           <div className="text-right">
-            <Label className="text-cream/70">24H volume</Label>
-            <div className="font-slab text-[clamp(32px,5vw,52px)] leading-none tabular-nums">{m ? fmtUsd(m.volume24h) : empty || "—"}</div>
+            <Label className="text-chalk/70">24H volume</Label>
+            <div className="font-display text-[clamp(34px,5vw,56px)] leading-none tabular-nums">{m ? fmtUsd(m.volume24h) : empty || "—"}</div>
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function MainToken() {
             sub={h?.change24h != null ? <span className={changeColor(h.change24h)}>{h.change24h > 0 ? "▲" : h.change24h < 0 ? "▼" : "•"} {fmtNum(Math.abs(h.change24h))} 24h</span> : undefined}
           />
           <StatBlock
-            tone="red"
+            tone="led"
             label="Supply burnt"
             value={burnedPct !== null && (stats!.cycles > 0 || stats!.totalBurned > 0) ? `${burnedPct.toFixed(2)}%` : pre ? "Soon" : "—"}
             valueClass="text-[clamp(20px,3vw,30px)]"
@@ -79,10 +79,10 @@ export default function MainToken() {
           />
         </div>
 
-        <div className="mt-8 border-4 border-cream bg-ink-2 shadow-brutal-md">
-          <div className="flex items-center justify-between border-b-[3px] border-cream/20 px-4 py-2.5">
-            <Label className="text-cream/80">Live chart</Label>
-            <Label className="text-cream/50">via DexScreener</Label>
+        <div className="panel mt-8 overflow-hidden rounded-xl">
+          <div className="flex items-center justify-between border-b border-chalk/10 px-4 py-2.5">
+            <Label className="text-chalk/80">Live chart</Label>
+            <Label className="text-chalk/50">via DexScreener</Label>
           </div>
           {mint && !DEMO ? (
             <iframe
@@ -94,15 +94,16 @@ export default function MainToken() {
             />
           ) : (
             <div className="relative h-[300px] overflow-hidden sm:h-[380px]">
-              <svg aria-hidden="true" className="absolute inset-0 h-full w-full text-cream/10" preserveAspectRatio="none" viewBox="0 0 400 200">
+              <div aria-hidden="true" className="turf absolute inset-0 opacity-40" />
+              <svg aria-hidden="true" className="absolute inset-0 h-full w-full text-chalk/10" preserveAspectRatio="none" viewBox="0 0 400 200">
                 {[40, 80, 120, 160].map((y) => (
                   <line key={y} x1="0" x2="400" y1={y} y2={y} stroke="currentColor" strokeDasharray="4 6" />
                 ))}
-                <polyline points="0,170 50,160 90,165 140,130 190,138 240,96 290,104 340,62 400,40" fill="none" stroke="rgb(233 185 73 / 0.25)" strokeWidth="3" />
+                <polyline points="0,170 50,160 90,165 140,130 190,138 240,96 290,104 340,62 400,40" fill="none" stroke="rgb(255 194 61 / 0.35)" strokeWidth="3" />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-                <div className="font-slab text-[clamp(24px,4vw,40px)] uppercase leading-none">Chart goes live at launch</div>
-                <p className="mt-3 font-narrow font-bold uppercase tracking-[0.18em] text-cream/60">
+                <div className="font-display text-[clamp(28px,4vw,44px)] uppercase leading-none tracking-[0.02em]">Chart goes live at launch</div>
+                <p className="mt-3 font-narrow font-bold uppercase tracking-[0.18em] text-chalk/60">
                   {DEMO ? "Hidden in preview mode" : `When $${SITE.ticker} trades on pump.fun`}
                 </p>
               </div>
@@ -117,9 +118,9 @@ export default function MainToken() {
           title="Fee engine"
           aside={
             stats?.nextCycleAt ? (
-              <div className="font-narrow font-bold uppercase tracking-[0.16em] text-cream/70">
+              <div className="font-narrow font-bold uppercase tracking-[0.16em] text-chalk/70">
                 Next cycle in{" "}
-                <span className="text-cream">
+                <span className="led-text">
                   <CycleTimer next={stats.nextCycleAt} intervalMs={stats.cycleIntervalMs} />
                 </span>
               </div>
@@ -127,26 +128,27 @@ export default function MainToken() {
           }
         />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <StatBlock tone="gold" label="SOL routed" value={stats && routed > 0 ? fmtSol(routed) : mints.any ? "—" : "Soon"} valueClass="text-[clamp(20px,3vw,30px)]" />
+          <StatBlock tone="led" label="SOL routed" value={stats && routed > 0 ? fmtSol(routed) : mints.any ? "—" : "Soon"} valueClass="text-[clamp(20px,3vw,30px)]" />
           <StatBlock tone="red" label="To buy & burn" value={stats && routed > 0 ? fmtSol(stats.solToBurn) : "—"} valueClass="text-[clamp(20px,3vw,30px)]" />
           <StatBlock label="To LP" value={stats && routed > 0 ? fmtSol(stats.solToLp) : "—"} valueClass="text-[clamp(20px,3vw,30px)]" />
           <StatBlock label="To marketing" value={stats && routed > 0 ? fmtSol(stats.solToMarketing) : "—"} valueClass="text-[clamp(20px,3vw,30px)]" />
         </div>
         {stats && routed > 0 && (
-          <div className="mt-5 flex h-4 border-[3px] border-ink" role="img" aria-label="Where routed SOL went">
+          <div className="mt-5 flex h-4 overflow-hidden rounded-full border border-chalk/20" role="img" aria-label="Where routed SOL went">
             <span className="bg-red-hot" style={{ width: `${(stats.solToBurn / routed) * 100}%` }} />
-            <span className="bg-gold" style={{ width: `${(stats.solToLp / routed) * 100}%` }} />
+            <span className="bg-amber" style={{ width: `${(stats.solToLp / routed) * 100}%` }} />
             <span className="bg-sky" style={{ width: `${(stats.solToMarketing / routed) * 100}%` }} />
           </div>
         )}
-        <p className="mt-4 font-narrow text-sm font-bold uppercase tracking-[0.16em] text-cream/55">
+        <p className="mt-4 font-narrow text-sm font-bold uppercase tracking-[0.16em] text-chalk/55">
           {stats?.cycles ? `${fmtNum(stats.cycles)} cycles run` : "No cycles run yet"}
           {stats?.lastCycleAt && now !== null ? ` · last ${timeAgo(stats.lastCycleAt, now)}` : ""}
         </p>
       </Wrap>
 
-      <section className="mt-16 border-y-4 border-ink bg-ink py-10">
-        <Wrap className="flex justify-center">
+      <section className="turf relative mt-16 border-y border-amber/30 py-10">
+        <div aria-hidden="true" className="yardlines absolute inset-0" />
+        <Wrap className="relative flex justify-center">
           <BuyButton size="hero" />
         </Wrap>
       </section>
