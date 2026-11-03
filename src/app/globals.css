@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/*
+  Design language (WC-style "campaign poster"): square corners, thick borders,
+  hard offset shadows (shadow-brutal-*), slab display numbers, narrow uppercase labels.
+  Colors: lime = price up, red-hot = price down / live, gold = brand accent & active states.
+*/
+@theme {
+  --color-ink: #060f27;
+  --color-ink-2: #0a1636;
+  --color-ink-3: #0f1f4a;
+  --color-navy: #0b1b42;
+  --color-navy-2: #13285e;
+  --color-red: #d62839;
+  --color-red-hot: #ff4357;
+  --color-red-deep: #8f1d2a;
+  --color-blue: #3d6fd9;
+  --color-sky: #8fb2ff;
+  --color-cream: #f7f0e1;
+  --color-cream-deep: #e5d6b0;
+  --color-gold: #e9b949;
+  --color-lime: #8ee86b;
+
+  --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
+  --shadow-brutal-md: 6px 6px 0 0 var(--color-ink);
+  --shadow-brutal-lg: 9px 9px 0 0 var(--color-ink);
+  --shadow-brutal-xl: 14px 14px 0 0 var(--color-ink);
+  --shadow-brutal-gold: 6px 6px 0 0 var(--color-gold);
+  --shadow-brutal-red: 6px 6px 0 0 var(--color-red);
+  --shadow-brutal-cream: 6px 6px 0 0 var(--color-cream);
+
+  --animate-pulse-dot: pulse-dot 1.4s ease-in-out infinite;
+  --animate-blink: blink 1.2s steps(1) infinite;
+  --animate-flip-in: flip-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --animate-rise: rise 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@theme inline {
+  --font-slab: var(--ff-slab), Georgia, serif;
+  --font-narrow: var(--ff-narrow), "Arial Narrow", sans-serif;
+  --font-sans: var(--ff-inter), system-ui, sans-serif;
+  --font-mono: var(--ff-mono), ui-monospace, monospace;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.6); }
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes flip-in {
+  from { transform: perspective(300px) rotateX(-80deg); opacity: 0.2; }
+  to { transform: perspective(300px) rotateX(0); opacity: 1; }
+}
+@keyframes rise {
+  from { transform: translateY(14px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes scan-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+/* Fee-engine illustrations. */
+@keyframes coin-in {
+  0% { transform: translate(var(--dx, -60px), -40px) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  80% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(0, 6px) scale(0.8); opacity: 0; }
+}
+@keyframes flame {
+  0%, 100% { transform: scaleY(1) scaleX(1); }
+  50% { transform: scaleY(1.12) scaleX(0.94); }
+}
+@keyframes pool-fill {
+  from { transform: scaleY(0.25); }
+  to { transform: scaleY(0.9); }
+}
+@keyframes wave-out {
+  from { transform: scale(0.6); opacity: 0.9; }
+  to { transform: scale(1.4); opacity: 0; }
+}
+@keyframes crt-on {
+  0% { transform: scaleY(0.015) scaleX(0.6); filter: brightness(3); }
+  60% { transform: scaleY(1) scaleX(1); filter: brightness(1.6); }
+  100% { transform: none; filter: none; }
+}
+/* "I Voted" sticker slap and confetti burst on a finished ballot. */
+@keyframes sticker-slap {
+  0% { transform: scale(2.4) rotate(-28deg); opacity: 0; }
+  55% { transform: scale(0.9) rotate(-4deg); opacity: 1; }
+  75% { transform: scale(1.04) rotate(-9deg); }
+  100% { transform: scale(1) rotate(-7deg); }
+}
+@keyframes confetti-fly {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+}
+@keyframes step-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+html {
+  background: var(--color-ink);
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-ink);
+  background-image:
+    radial-gradient(circle at 20% -10%, rgb(61 111 217 / 0.22), transparent 45%),
+    radial-gradient(circle at 110% 30%, rgb(214 40 57 / 0.16), transparent 40%);
+  background-attachment: fixed;
+  color: var(--color-cream);
+}
+
+@media (max-width: 767px) {
+  html, body { overflow-x: clip; }
+}
+
+/* Film grain over everything, like a printed poster. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Faint star field used behind hero panels. */
+.stars {
+  background-image:
+    radial-gradient(rgb(247 240 225 / 0.18) 1px, transparent 1.5px),
+    radial-gradient(rgb(247 240 225 / 0.1) 1px, transparent 1.5px);
+  background-size: 34px 34px, 34px 34px;
+  background-position: 0 0, 17px 17px;
+}
+
+.stripes {
+  background-image: repeating-linear-gradient(-45deg, var(--color-red) 0 14px, var(--color-cream) 14px 28px);
+}
+
+/* CRT scanlines for the burn cam and scoreboard. */
+.scanlines {
+  background-image: repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 3px);
+}
+
+.poster-shadow {
+  text-shadow: 4px 4px 0 var(--color-red), 8px 8px 0 rgb(0 0 0 / 0.35);
+}
+
+/* Loading placeholder: a gold bar sweeping across a dark block. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-ink-3);
+  color: transparent !important;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgb(233 185 73 / 0.15), transparent);
+  animation: scan-sweep 0.9s linear infinite;
+}
+
+.marquee {
+  animation: marquee 60s linear infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
