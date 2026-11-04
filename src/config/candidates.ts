@@ -40,7 +40,7 @@ const CHALK = "#f4f7f2";
 const INK = "#050b14";
 
 // Roster: the 16 teams with the best odds on Polymarket's title market (Nov 3, 2026), ordered by
-// those odds. Add a line here to launch another team later.
+// those odds, plus the Giants. Add a line here to launch another team later.
 export const TEAMS: Team[] = [
   { id: "49ers", name: "San Francisco 49ers", city: "San Francisco", nickname: "49ers", abbr: "SF", ticker: "49ERS", conference: "NFC", mint: "", status: "running", polymarketId: "1357398", color: "#aa0000", stripe: "#b3995d", on: CHALK },
   { id: "bills", name: "Buffalo Bills", city: "Buffalo", nickname: "Bills", abbr: "BUF", ticker: "BILLS", conference: "AFC", mint: "", status: "running", polymarketId: "1357374", color: "#00338d", stripe: "#c60c30", on: CHALK },
@@ -58,11 +58,12 @@ export const TEAMS: Team[] = [
   { id: "steelers", name: "Pittsburgh Steelers", city: "Pittsburgh", nickname: "Steelers", abbr: "PIT", ticker: "STEELERS", conference: "AFC", mint: "", status: "running", polymarketId: "1357397", color: "#101820", stripe: "#ffb612", on: CHALK },
   { id: "cowboys", name: "Dallas Cowboys", city: "Dallas", nickname: "Cowboys", abbr: "DAL", ticker: "COWBOYS", conference: "NFC", mint: "", status: "running", polymarketId: "1357379", color: "#041e42", stripe: "#869397", on: CHALK },
   { id: "texans", name: "Houston Texans", city: "Houston", nickname: "Texans", abbr: "HOU", ticker: "TEXANS", conference: "AFC", mint: "", status: "running", polymarketId: "1357383", color: "#03202f", stripe: "#a71930", on: CHALK },
+  // Added after launch: the 17th team, launched from the creator wallet on Nov 4, 2026.
+  { id: "giants", name: "New York Giants", city: "New York", nickname: "Giants", abbr: "NYG", ticker: "GIANTS", conference: "NFC", mint: "", status: "running", polymarketId: "1357394", color: "#0b2265", stripe: "#a71930", on: CHALK },
 ];
 
-// The other 16 teams get no coin, but their odds still count toward the AFC vs NFC bar.
+// The other 15 teams get no coin, but their odds still count toward the AFC vs NFC bar.
 export const OTHER_TEAMS: { name: string; conference: Conference; polymarketId: string }[] = [
-  { name: "New York Giants", conference: "NFC", polymarketId: "1357394" },
   { name: "Atlanta Falcons", conference: "NFC", polymarketId: "1357372" },
   { name: "Tampa Bay Buccaneers", conference: "NFC", polymarketId: "1357400" },
   { name: "Carolina Panthers", conference: "NFC", polymarketId: "1357375" },
