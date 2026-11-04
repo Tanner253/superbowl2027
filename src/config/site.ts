@@ -13,7 +13,7 @@ export const SITE = {
   gameName: "Super Bowl LXI",
   venue: "SoFi Stadium · Inglewood",
   socials: [
-    { label: "X", href: "" },
+    { label: "X", href: "https://x.com/SuperbowlOnPump" },
     { label: "Telegram", href: "" },
     { label: "TikTok", href: "" },
     { label: "Instagram", href: "" },

@@ -81,7 +81,7 @@ export default function Nav() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="hidden text-xl text-chalk/75 hover:text-amber sm:block"
+                  className="flex h-9 w-9 items-center justify-center rounded-md text-xl text-chalk/80 hover:bg-chalk/10 hover:text-amber"
                 >
                   {Icon ? <Icon /> : s.label}
                 </a>
