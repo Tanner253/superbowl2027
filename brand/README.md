@@ -41,7 +41,7 @@ Caption format (emoji only in the caption; the brand fonts have none):
 ```
 🔥 <burned> $SUPERBOWL burned so far (<pct> of the supply).
 
-Every trade on every team coin pays a fee. Every 15 minutes the crank claims it and buys and burns $SUPERBOWL.
+Every trade on every team coin pays a fee. Every 5 minutes the crank claims it and buys and burns $SUPERBOWL.
 
 🏈 <coins> coins live · market cap <mcap>
 superbowl2027.fun

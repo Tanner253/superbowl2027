@@ -106,7 +106,7 @@ function NextRound() {
 function NextBurn() {
   const { stats } = useMarket();
   const now = useNow();
-  const target = now === null ? null : nextCycleTarget(stats?.nextCycleAt, stats?.cycleIntervalMs ?? 900_000, now);
+  const target = now === null ? null : nextCycleTarget(stats?.nextCycleAt, stats?.cycleIntervalMs ?? 300_000, now);
   const d = now !== null && target !== null ? splitDuration(target - now) : null;
   return (
     <>
@@ -125,7 +125,7 @@ function NextBurn() {
         </div>
       )}
       <p className="mt-4 font-narrow text-sm font-bold uppercase tracking-[0.18em] text-chalk/70">
-        Creator fees claimed &amp; routed on-chain every 15 minutes
+        Creator fees claimed &amp; routed on-chain every 5 minutes
       </p>
     </>
   );

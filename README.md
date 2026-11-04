@@ -31,7 +31,7 @@ Kick Return, the signature game, opens from the nav on every page. It's mounted 
 | Title odds | Polymarket "Pro Football: 2027 Champion" (gamma `/markets/keyset`), every 5 min. Each team's market id is `polymarketId` in `src/config/candidates.ts` |
 | AFC vs NFC | The same event: each conference's 16 team markets summed (the 16 teams without coins are `OTHER_TEAMS`) |
 | Burned total | Read from the chain by `/api/stats` |
-| SOL routed, LP and marketing totals, cycle times, holder counts, burn log, coin list | MongoDB, written every 15 minutes by the crank (private repo `superbowl2027-crank`), served by this site's read-only `/api/stats` route |
+| SOL routed, LP and marketing totals, cycle times, holder counts, burn log, coin list | MongoDB, written every 5 minutes by the crank (private repo `superbowl2027-crank`), served by this site's read-only `/api/stats` route |
 | Fan Card | `board-meta.json` + `board-{n}.json`, written by your internal claim process |
 
 ## Settings
@@ -67,7 +67,7 @@ seconds at Vercel's edge, with `totalBurned` read straight from the chain:
   "cycles": 0,
   "lastCycleAt": null,
   "nextCycleAt": null,
-  "cycleIntervalMs": 900000,
+  "cycleIntervalMs": 300000,
   "capturedAt": null,
   "holders": { "<mint>": { "count": 1049, "change24h": -30 } },
   "coins": [{ "mint": "<mint>", "symbol": "BILLS", "name": "Buffalo Bills", "image": null, "main": false }]
