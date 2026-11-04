@@ -169,7 +169,7 @@ function banner() {
   ${headline("bh1", 440, 250, 116, "SUPER BOWL", C.chalk)}
   ${headline("bh2", 990, 250, 116, "2027", C.amber)}
   ${pill(444, 290, 420, 58, 28, "$SUPERBOWL · ON PUMP.FUN")}
-  ${label(446, 398, 24, "16 TEAM COINS · EVERY TRADE BURNS $SUPERBOWL", C.chalk, "start", 0.85)}
+  ${label(446, 398, 24, "17 TEAM COINS · EVERY TRADE BURNS $SUPERBOWL", C.chalk, "start", 0.85)}
   ${placeBadge("bb", 1330, 240, 124)}
 </svg>`;
 }
@@ -183,7 +183,7 @@ function og() {
   ${headline("oh1", 64, 262, 150, "SUPER BOWL", C.chalk)}
   ${headline("oh2", 64, 405, 150, "2027", C.amber)}
   ${pill(70, 450, 450, 64, 31, "$SUPERBOWL · ON PUMP.FUN")}
-  ${label(72, 566, 25, "16 TEAMS · AFC VS NFC · EVERY TRADE BURNS", C.chalk, "start", 0.85)}
+  ${label(72, 566, 25, "17 TEAMS · AFC VS NFC · EVERY TRADE BURNS", C.chalk, "start", 0.85)}
   ${placeBadge("ob", 960, 250, 170)}
 </svg>`;
 }
