@@ -92,7 +92,7 @@ function NextRound() {
       </PanelTitle>
       <div className="mt-5 flex gap-2 sm:gap-3">
         <FlipTile size="lg" value={d ? String(d.days) : "—"} unit="Days" />
-        <FlipTile size="lg" value={d ? pad2(d.hours) : "—"} unit="Hrs" />
+        <FlipTile size="lg" value={d ? pad2(d.hours) : "—"} unit="Hours" />
         <FlipTile size="lg" value={d ? pad2(d.mins) : "—"} unit="Mins" />
         <FlipTile size="lg" value={d ? pad2(d.secs) : "—"} unit="Secs" />
       </div>
@@ -115,7 +115,7 @@ function NextBurn() {
       </PanelTitle>
       {d ? (
         <div className="mt-5 flex gap-2 sm:gap-3">
-          <FlipTile size="lg" value={pad2(d.hours + d.days * 24)} unit="Hrs" />
+          <FlipTile size="lg" value={pad2(d.hours + d.days * 24)} unit="Hours" />
           <FlipTile size="lg" value={pad2(d.mins)} unit="Mins" />
           <FlipTile size="lg" value={pad2(d.secs)} unit="Secs" />
         </div>

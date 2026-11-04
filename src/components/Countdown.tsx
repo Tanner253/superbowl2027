@@ -7,7 +7,7 @@ export default function Countdown({ to }: { to: string }) {
   const d = now === null ? null : splitDuration(Date.parse(to) - now);
   const cells = [
     { v: d ? String(d.days) : "—", unit: "Days" },
-    { v: d ? pad2(d.hours) : "—", unit: "Hrs" },
+    { v: d ? pad2(d.hours) : "—", unit: "Hours" },
     { v: d ? pad2(d.mins) : "—", unit: "Mins" },
     { v: d ? pad2(d.secs) : "—", unit: "Secs" },
   ];
@@ -16,7 +16,7 @@ export default function Countdown({ to }: { to: string }) {
       {cells.map((c) => (
         <div key={c.unit} className="min-w-[58px] rounded-md border border-amber/30 bg-ink px-2 py-1.5 text-center">
           <div className="led-text font-display text-2xl leading-none tabular-nums">{c.v}</div>
-          <div className="mt-1 font-narrow text-[11px] font-bold uppercase tracking-[0.18em] text-chalk/60">{c.unit}</div>
+          <div className="mt-1 font-narrow text-[12px] font-bold uppercase tracking-[0.16em] text-chalk/90">{c.unit}</div>
         </div>
       ))}
     </div>
