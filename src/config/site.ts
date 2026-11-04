@@ -6,7 +6,7 @@ export const SITE = {
   ticker: "SUPERBOWL",
   url: "https://www.superbowl2027.fun",
   // Paste the $SUPERBOWL contract address here once it's live on pump.fun.
-  mainMint: "",
+  mainMint: "92j5cWKjdVKDC7skBw1HjvYtrTU8nMM1zKjC4dqmpump",
   totalSupply: 1_000_000_000,
   // Super Bowl LXI. Midnight Eastern until the kickoff time is announced.
   gameDay: "2027-02-14T00:00:00-05:00",
