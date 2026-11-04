@@ -27,7 +27,7 @@ export default function Ticker() {
   if (now !== null) {
     const e = nextDatedEvent(now);
     if (e?.date) headlines.push(<>{splitDuration(Date.parse(`${e.date}T00:00:00-05:00`) - now).days} days to {e.title}</>);
-    const burn = nextCycleTarget(stats?.nextCycleAt, stats?.cycleIntervalMs ?? 900_000, now);
+    const burn = nextCycleTarget(stats?.nextCycleAt, stats?.cycleIntervalMs ?? 300_000, now);
     headlines.push(burn === null ? <>${SITE.ticker} burns start at launch</> : <>Next ${SITE.ticker} burn in {Math.ceil((burn - now) / 60000)} min</>);
   }
 

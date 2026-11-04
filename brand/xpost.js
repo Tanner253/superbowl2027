@@ -65,7 +65,7 @@ function xpost(d) {
     <text x="1010" y="335">EVERY TEAM COIN</text>
     <text x="1010" y="370">FEEDS THE BURN</text>
   </g>
-  <text x="1010" y="418" text-anchor="middle" font-family="Anton" font-size="34" fill="${C.amber}">EVERY 15 MINUTES</text>
+  <text x="1010" y="418" text-anchor="middle" font-family="Anton" font-size="34" fill="${C.amber}">EVERY 5 MINUTES</text>
   ${label(62, 572, 22, d.lead || "16 TEAMS · AFC VS NFC · ONE CHAMPION · FEB 14, 2027", C.chalk, "start", 0.85)}
   <text x="62" y="622" font-family="Anton" font-size="38" letter-spacing="3" fill="${C.amber}">SUPERBOWL2027.FUN</text>
 </svg>`;
@@ -75,7 +75,7 @@ function caption(d) {
   return [
     `🔥 ${d.burned} $SUPERBOWL burned so far (${d.pct} of the supply).`,
     "",
-    "Every trade on every team coin pays a fee. Every 15 minutes the crank claims it and buys and burns $SUPERBOWL.",
+    "Every trade on every team coin pays a fee. Every 5 minutes the crank claims it and buys and burns $SUPERBOWL.",
     "",
     `🏈 ${d.coins} coins live · market cap ${d.mcap}`,
     "superbowl2027.fun",

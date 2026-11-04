@@ -237,7 +237,7 @@ export function demoHolders(keys: string[]) {
 }
 
 export function demoStats(): EngineStats {
-  const cycle = 15 * 60_000;
+  const cycle = 5 * 60_000;
   const now = Date.now();
   const last = Math.floor(now / cycle) * cycle;
   return {
